@@ -313,3 +313,108 @@ window.guinchos = {
     validateEmail,
     validatePhone
 };
+
+// ==================== PORTFOLIO LIGHTBOX ==================== //
+ 
+/**
+ * Lista de itens do portfólio visíveis (para navegação)
+ */
+let portfolioItems = [];
+let currentPhotoIndex = 0;
+ 
+/**
+ * Abre o lightbox ao clicar em uma foto do portfólio
+ */
+function openLightbox(itemEl) {
+    portfolioItems = Array.from(
+        document.querySelectorAll('.portfolio-item:not([style*="display:none"])')
+    );
+    currentPhotoIndex = portfolioItems.indexOf(itemEl);
+ 
+    showPhoto(currentPhotoIndex);
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+ 
+/**
+ * Fecha o lightbox
+ */
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+}
+ 
+/**
+ * Navega para uma foto pelo índice
+ */
+function showPhoto(index) {
+    const item = portfolioItems[index];
+    if (!item) return;
+ 
+    const img    = item.querySelector('img');
+    const src    = img.getAttribute('data-src') || img.getAttribute('src');
+    const caption = img.getAttribute('data-caption') || img.getAttribute('alt') || '';
+ 
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightboxImg').alt = caption;
+    document.getElementById('lightboxCaption').textContent = caption;
+    currentPhotoIndex = index;
+}
+ 
+/**
+ * Próxima foto
+ */
+function nextPhoto() {
+    const next = (currentPhotoIndex + 1) % portfolioItems.length;
+    showPhoto(next);
+}
+ 
+/**
+ * Foto anterior
+ */
+function prevPhoto() {
+    const prev = (currentPhotoIndex - 1 + portfolioItems.length) % portfolioItems.length;
+    showPhoto(prev);
+}
+ 
+// Fecha lightbox ao clicar fora da imagem
+document.addEventListener('DOMContentLoaded', () => {
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox) {
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) closeLightbox();
+        });
+    }
+ 
+    // Navegação pelo teclado
+    document.addEventListener('keydown', function(e) {
+        if (!lightbox || !lightbox.classList.contains('active')) return;
+        if (e.key === 'Escape')      closeLightbox();
+        if (e.key === 'ArrowRight')  nextPhoto();
+        if (e.key === 'ArrowLeft')   prevPhoto();
+    });
+ 
+    // Verifica se todas as imagens do portfólio falharam → exibe aviso
+    const grid  = document.getElementById('portfolioGrid');
+    const empty = document.getElementById('portfolioEmpty');
+    if (grid && empty) {
+        const allItems = grid.querySelectorAll('.portfolio-item');
+        let loaded = 0;
+        let failed = 0;
+ 
+        allItems.forEach(item => {
+            const img = item.querySelector('img');
+            if (!img) { failed++; return; }
+ 
+            img.addEventListener('load',  () => { loaded++; });
+            img.addEventListener('error', () => {
+                failed++;
+                item.style.display = 'none';
+                if (failed === allItems.length) empty.style.display = 'block';
+            });
+ 
+            // Imagem já estava em cache (já carregada)
+            if (img.complete && img.naturalWidth > 0) loaded++;
+        });
+    }
+});
