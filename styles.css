@@ -207,6 +207,41 @@ p {
     font-size: 1.5rem;
 }
 
+/* Logo no header */
+.logo-icon-img {
+    height: 44px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    flex-shrink: 0;
+}
+
+/* Ícone de telefone dentro dos botões do hero */
+.hero-img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+/* Ícones nos cards de serviço e pagamento */
+.service-img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    display: block;
+    margin-bottom: var(--spacing-md);
+}
+
+/* Ícones menores no footer */
+.service-img-footer {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    display: inline-block;
+    vertical-align: middle;
+}
+
 .logo-text {
     display: none;
 }
@@ -243,6 +278,12 @@ p {
     border-radius: 50%;
     animation: float 6s ease-in-out infinite;
     pointer-events: none;
+    overflow: hidden;
+}
+
+/* Esconde imagem solta dentro do hero-decoration */
+.hero-decoration img {
+    display: none;
 }
 
 .hero-content {
@@ -534,6 +575,16 @@ p {
     transition: all var(--transition-normal);
     text-decoration: none;
     border: none;
+    overflow: hidden; /* impede imagem de vazar do círculo */
+}
+
+/* Imagem dentro do botão WhatsApp flutuante */
+.whatsapp-button img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    display: block;
+    flex-shrink: 0;
 }
 
 .whatsapp-button:hover {
@@ -544,6 +595,222 @@ p {
 .whatsapp-button:focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
+}
+
+/* ==================== PORTFOLIO SECTION ==================== */
+
+.portfolio {
+    background: var(--bg-light);
+    padding: var(--spacing-2xl) var(--spacing-md);
+}
+
+.portfolio-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.portfolio-subtitle {
+    text-align: center;
+    color: var(--text-light);
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-xl);
+    margin-top: calc(-1 * var(--spacing-md));
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.portfolio-item {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    aspect-ratio: 4 / 3;
+    max-height: 240px;         /* evita ficar gigante em telas grandes */
+    background: #e5e7eb;
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.portfolio-item:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-xl);
+}
+
+.portfolio-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition-slow);
+}
+
+.portfolio-item:hover img {
+    transform: scale(1.05);
+}
+
+.portfolio-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.portfolio-item:hover .portfolio-overlay {
+    opacity: 1;
+}
+
+.portfolio-icon {
+    font-size: 1.8rem;
+}
+
+.portfolio-caption {
+    color: #fff;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    text-align: center;
+    padding: 0 var(--spacing-sm);
+    margin: 0;
+}
+
+.portfolio-empty {
+    text-align: center;
+    padding: var(--spacing-2xl) var(--spacing-md);
+    color: var(--text-light);
+    font-size: var(--font-size-base);
+    line-height: 1.8;
+}
+
+.portfolio-empty code {
+    background: #e5e7eb;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: var(--text-dark);
+}
+
+/* ==================== LIGHTBOX ==================== */
+
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-lg);
+}
+
+.lightbox.active {
+    display: flex;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 900px;
+    width: 100%;
+    text-align: center;
+}
+
+.lightbox-img {
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+.lightbox-caption {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: var(--font-size-sm);
+    margin-top: var(--spacing-sm);
+    margin-bottom: 0;
+}
+
+.lightbox-close {
+    position: fixed;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: #fff;
+    font-size: 1.4rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition-fast);
+    z-index: 10000;
+    line-height: 1;
+}
+
+.lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.lightbox-prev,
+.lightbox-next {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: #fff;
+    font-size: 2.5rem;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition-fast);
+    z-index: 10000;
+    line-height: 1;
+}
+
+.lightbox-prev { left: var(--spacing-md); }
+.lightbox-next { right: var(--spacing-md); }
+
+.lightbox-prev:hover,
+.lightbox-next:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 640px) {
+    .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-sm);
+    }
+
+    .portfolio-item {
+        max-height: 160px;
+    }
+
+    .lightbox-prev { left: var(--spacing-xs); }
+    .lightbox-next { right: var(--spacing-xs); }
+
+    .lightbox-prev,
+    .lightbox-next {
+        width: 40px;
+        height: 40px;
+        font-size: 1.8rem;
+    }
 }
 
 /* ==================== ANIMATIONS ==================== */
